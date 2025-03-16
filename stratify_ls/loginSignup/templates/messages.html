@@ -1,0 +1,134 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Messages</title>
+</head>
+<body>
+    <h1>Messages</h1>
+    <p>This is the Messages page.</p>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stratify - Messages</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="messages-container">
+    <header class="dashboard-header">
+        <div class="logo">
+            <img src="{% static 'logo.png' %}" alt="Stratify Logo">
+            <h1>Stratify</h1>
+        </div>
+        <nav class="navbar">
+            <ul class="navbar-list">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'my_activities' %}">My Activities</a></li>
+                <li><a href="{% url 'messages' %}">Messages</a></li>
+                <li><a href="{% url 'logout' %}" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    
+        <header class="messages-header">
+            <h1>Messages</h1>
+        </header>
+        <main class="messages-main">
+            <section class="unread-section">
+                <h2>Unread</h2>
+                <div class="message-item">
+                    <div class="message-sender">Icky Orini</div>
+                    <div class="message-content">Icky: hellow there! I am interested in your...</div>
+                </div>
+            </section>
+            <section class="my-connections-section">
+                <h2>My Connections</h2>
+                <div class="message-item">
+                    <div class="message-sender">Investor A • 7:16 PM</div>
+                    <div class="message-content">Hello</div>
+                </div>
+            </section>
+            <footer class="messages-footer">
+                <input type="text" placeholder="Write a message...">
+            </footer>
+        </main>
+    </div>
+</body>
+<style>
+    
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.messages-header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.messages-main {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.unread-section, .my-connections-section {
+  margin-bottom: 20px;
+}
+
+.unread-section h2, .my-connections-section h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.message-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+
+.message-sender {
+  font-weight: bold;
+  color: #333;
+}
+
+.message-content {
+  color: #555;
+  margin-top: 5px;
+}
+
+.messages-footer {
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-top: 1px solid #ddd;
+}
+
+.messages-footer input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+</style>
+</html>

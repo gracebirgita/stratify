@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    <!-- PLACEHOLDER VIEW -->
+    <h1>Profile of {{ user.username }}</h1>
+    <p>Email: {{ user.email }}</p>
+    <p>Role: {% if user.role == 1 %}
+        Company
+        {% elif user.role == 2 %}
+        Investor
+        {% endif %}</p>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<html lang="en" dir="ltr">
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+  </head>
+  <body>
+    <div class="center">
+      <!-- <div class="slide-controls">
+        <label for="" class="slide company">Company</label>
+        <label for="" class="slide investor">Investor</label>
+      </div> -->
+      <h1>Sign Up</h1>
+
+      <!-- Choose Role -->
+      <!-- <div class="role-selection">
+        <div class="role company">
+          <input type="radio" id="company" name="role" value="company" required>
+          <label for="company">Company</label>
+        </div>
+        <div class="role investor">
+          <input type="radio" id="investor" name="role" value="investor" required>
+          <label for="investor">Investor</label>
+        </div>
+      </div> -->
+
+      <!-- <div class="slide-controls">
+        <input type="radio" name="role" id="company" value="1" checked> 
+        <input type="radio" name="role" id="investor" value="2">
+        
+        <label for="company" class="slide company">Company</label>
+        <label for="investor" class="slide investor">Investor</label>
+        <div class="slide-tab"></div>
+      </div> -->
+
+      <!-- style if message notif popped up -->
+      {% if messages %}
+          {% for message in messages %}
+              {% if message.tags == 'error' %}
+                  <center><h4 style="color: firebrick;">{{message}}</h4></center>
+              {% else %}
+                  <center><h4 style="color: green;">{{message}}</h4></center>
+              {% endif %}
+          {% endfor %}
+      {% endif %}
+        
+      <form method="POST">
+
+        <!-- token unik tiap user -->
+        {% csrf_token %} 
+
+        <!-- name="role" take value to views.py -->
+        <div class="slide-controls">
+          <input type="radio" name="role" id="company" value="1" {% if role == '1' %}checked{% endif %}>
+          <label for="company" class="slide company">Company</label>
+
+          <input type="radio" name="role" id="investor" value="2" {% if role == '2' %}checked{% endif %}>
+          <label for="investor" class="slide investor">Investor</label>
+        </div>
+
+        <div class="txt_field">
+            <input type="text" required name="first_name">
+            <span></span>
+            <label>First Name</label>
+          </div>
+
+          <div class="txt_field">
+            <input type="text" required name="last_name">
+            <span></span>
+            <label>Last Name</label>
+          </div>
+
+        <div class="txt_field">
+          <input type="text" required name="username">
+          <span></span>
+          <label>Username</label>
+        </div>
+
+        <div class="txt_field">
+            <input type="email" required name="email">
+            <span></span>
+            <label>Email</label>
+          </div>
+
+        <div class="txt_field">
+          <input type="password" required name="password">
+          <span></span>
+          <label>Password</label>
+        </div>    
+        
+        <!-- <div class="pass">Forgot Password?</div> -->
+        <input type="submit" value="Register">
+        <div class="signup_link">
+          Already have an account? <a href="{% url 'login' %}">Login</a>
+        </div>
+      </form>
+    </div>
+
+    <style>
+
+    .slide-controls {
+      position: relative;
+      display: flex;
+      height: 50px;
+      width: 90%;
+      overflow: hidden;
+      border-radius: 5px;
+      margin: 30px 30px 10px 20px;
+      justify-content: space-between;
+      border:1px solid lightgray;
+      /* justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+      border: 1px solid lightgrey;
+      border-radius: 5px;
+      overflow: hidden; */
+    }
+    .slide-controls.slide-tab{
+      position:absolute;
+      height: 100%;
+      width: 50%;
+      left:0;
+      z-index: 0;
+      border-radius: 5px;
+      transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+      background: -webkit-linear-gradient(left,#a445b2, #fa4299);
+    }
+
+    .slide-controls.slide{
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 500;
+      text-align: center;
+      line-height: 48px;
+      cursor: pointer;
+      transition: all 0.6s ease;
+    }
+
+    .slide-controls .investor{
+      color: #000;
+
+    }
+
+    input[type='radio']{
+      display:none;
+    }
+    #investor:checked ~ .slide.tab{
+      left:50%;
+    }
+
+    /* #investor:checked ~ .investor{
+      color: #000;
+    }
+
+    #investor:checked ~ .company{
+      color: #fff;
+    } */
+    .slide {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #fff;
+      transition: all 0.3s ease;
+    }
+    .slide:hover {
+      background: #f9f9f9;
+    }
+    .slide.active {
+      /* background: linear-gradient(to right, #ff7eb3, #ff758c); */
+      color: #fff;
+    }
+
+    .slide.darkened {
+      background: #555; /* Warna lebih gelap */
+      color: #fff; /* Warna teks kontras */
+      transition: background 0.3s ease;
+    }
+
+    /* .role-selection {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+    .role {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .role label {
+      font-size: 18px;
+      font-weight: bold;
+    } */
+  </style>
+
+  <!-- <script>
+    // Script for toggling active state
+    document.querySelectorAll('.slide').forEach(slide => {
+      slide.addEventListener('click', function() {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script> -->
+  <script>
+    // Ambil semua elemen dengan kelas 'slide'
+    const slides = document.querySelectorAll('.slide');
+  
+    slides.forEach(slide => {
+      slide.addEventListener('click', function () {
+        // Hapus kelas aktif pada semua elemen slide
+        slides.forEach(s => s.classList.remove('darkened'));
+  
+        // Tambahkan kelas darkened pada elemen yang diklik
+        this.classList.add('darkened');
+
+        //check radio button checked
+        const selectRole = document.querySelector('input[name="role"]:checked');
+        console.log("Selected role:", selectedRole ? selectedRole.value : "None");
+      });
+    });
+  </script>
+
+
+  </body>
+</html>
