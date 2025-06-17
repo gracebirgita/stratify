@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>homeBusiness</title>
+    <link rel="stylesheet" href="./css/home.css">
+    <script src="https://kit.fontawesome.com/43c9ab6ad0.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.com/libraries/Chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
+</head>
+<body>
+    <div class="container">
+        <div class="nav-left">
+            <div class="top">
+                <div class="mainIcon">
+                    <img src="./icon/navbar-icons/Stratify Icon.png">
+                </div>
+                <div class="home">
+                    <img src="./icon/navbar-icons/home.png">
+                    <h3>Home</h3>
+                </div>
+                <div class="landingpage">
+                    <img src="./icon/navbar-icons/landingPage.png">
+                    <h3>Landing <br> Page</h3>
+                </div>
+                <div class="messaging">
+                    <img src="./icon/navbar-icons/Message.png">
+                    <h3>Messaging</h3>
+                </div>
+                <div class="account">
+                    <img src="./icon/navbar-icons/account.png">
+                    <h3>Account</h3>
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="setting">
+                    <img src="./icon/navbar-icons/Settings.png">
+                </div>
+                <div class="help">
+                    <img src="./icon/navbar-icons/faq.png">
+                </div>
+            </div>
+        </div>
+        <div class="right-section">
+                <div class="nav-top">
+                    <div class="search">
+                        <input type="text" placeholder="search here..">
+                        <img src="./icon/navbar-icons/search.png" class="img1">
+                        <img src="./icon/navbar-icons/filter.png" class="img2">
+                    </div>
+                    <div class="notification">
+                        <img src="./icon/navbar-icons/notification-bell.png">
+                    </div>
+                    <div class="name-section">
+                        <div class="logo">
+                            <img src="./icon/navbar-icons/account.png">
+                        </div>
+                        <div class="name">
+                            <h3>John Constantine</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="main">
+                    <div class="title-section">
+                        <div class="title">
+                            <h1>Welcome Back, Mantappu Acedamy</h1>
+                            <h3>"Monitor Your Portfolio and Stay Ahead of the Market"</h3>
+                        </div>
+                        <button class="download-btn"><h3>Download</h3></button>
+                    </div>
+                    <div class="content">
+                        <div class="layer-2">
+                            <div class="box1">
+                                <div class="title">
+                                    <div class="sub-title">
+                                        <h3>Overall Sales</h3>
+                                        <h4>$22.242.50</h4>
+                                    </div>
+                                    <div class="date">
+                                        <img src="./icon/Calendar.png">
+                                        <h3>Month</h3>
+                                    </div>
+                                </div>
+                                <div class="bar-stat">
+                                    <canvas id="barChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="box2">
+                                <div class="title">
+                                    <h3>Overall Sales</h3>
+                                    <h3>Month</h3>
+                                </div>
+                                <div class="pie-chart-class">
+                                    <canvas id="pieChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layer-3">
+                            <div class="box1">
+                                <div class="title">
+                                    <div class="sub-title">
+                                        <h3>Invoice</h3>
+                                        <h4>Transaction this month</h4>
+                                    </div>
+                                </div>
+                                <div class="invoice-data">
+                                    <table>
+                                        <thead>
+                                            <tr> <!--row 1-->
+                                                <th>Invoice ID</th>   
+                                                <th>Inovice Name</th>
+                                                <th>Date</th> 
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>INV-131-341234</td>
+                                                <td>Hassan</td>
+                                                <td>21-03-2024</td>
+                                                <td>$320.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>INV-131-341234</td>
+                                                <td>Hassan</td>
+                                                <td>21-03-2024</td>
+                                                <td>$320.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>INV-131-341234</td>
+                                                <td>Hassan</td>
+                                                <td>21-03-2024</td>
+                                                <td>$320.00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="box2">
+                                <div class="title">
+                                    <div class="sub-title">
+                                        <h3>Recent Activites</h3>
+                                        <h4>Month</h4>
+                                    </div>
+                                </div>
+                                <div class="activity-data">
+                                    <div class="activity">
+                                        <div class="client-img-container">
+                                            <img src="./icon/">
+                                        </div>
+                                        <div class="client-data">
+                                            <h3>customer-name</h3>
+                                            <h4>status</h4>
+                                        </div>
+                                    </div>
+                                    <div class="activity">
+                                        <div class="client-img-container">
+                                            <img src="./icon/">
+                                        </div>
+                                        <div class="client-data">
+                                            <h3>Jhonson</h3>
+                                            <h4>5 minutes ago</h4>
+                                        </div>
+                                    </div>
+                                    <div class="activity">
+                                        <div class="client-img-container">
+                                            <img src="./icon/">
+                                        </div>
+                                        <div class="client-data">
+                                            <h3>Joana</h3>
+                                            <h4>15 minutes ago</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+<script src="./scripts/homeBusiness.js"></script>
+</html>
