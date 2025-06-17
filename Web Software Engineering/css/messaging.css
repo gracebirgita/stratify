@@ -1,0 +1,364 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body{
+    margin:0px;
+    padding:0px;
+    background-color: #323232;
+}
+
+h1{
+    color: white;
+    font-family: montserrat;
+    margin: 0px;
+    font-size: 24px;
+}
+
+h3,h4{
+    color:white;
+    font-family:poppins;
+    margin: 0px;
+}
+
+h3{
+    font-weight: 500;
+}
+
+h4{
+    font-weight: 200;
+}
+
+.pop-up{
+    display: none;
+}
+
+.wrapper{
+    height: 100dvh;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+
+    .nav-list{
+        height: 100%;
+        width: 8%;
+        background-color: #1f1f1f;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 0.5rem;
+        box-sizing: border-box;
+        border-right: 1px solid rgba(255, 255, 255, 0.234);
+
+
+        .home,.landingpage,.messaging,.account{
+            width: 50%;
+            height: auto;
+            padding: 10%;
+        }
+
+        .setting,.help{
+            width: 50%;
+            height: auto;
+            padding: 10%;
+        }
+
+        img{
+            width: 100%;
+            height: auto;
+            
+            
+        }
+
+        .top{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .bottom{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20%;
+        }
+    }
+
+    .contact-section{
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        background-color: #232121;
+        padding: 1rem;
+        position: relative;
+        overflow-y: scroll;
+
+        
+        .header{
+            border-bottom: 1px solid rgba(255, 255, 255, 0.112);
+            padding-bottom: 5%;
+            margin-bottom: 2%;
+          
+
+            .title{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 5%;
+                
+
+
+                .title-addOns{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 5%;
+
+                    svg{
+                        color: white;
+                        padding: 8px;
+                        fill: white;
+                        
+                    }
+
+                    svg:hover{
+                        background-color: #323232;
+                        border-radius: 50%;
+                    }
+
+                }
+            }
+
+            .search{
+                display: flex;
+                align-items: center;
+                position: relative;
+
+                input{
+                    background-color: #373636;
+                    border: none;
+                    width: 100%;
+                    border: none;
+                    border-radius: 16px;
+                    padding: 8px;
+                    padding-left: 10%;
+                }
+
+                img{
+                    position: absolute;
+                    width: 12px;
+                    height: 12px;
+                    left: 3%;
+                }
+                
+            }
+        }
+
+        .contact-list{
+            display: flex;
+            flex-direction: column;
+           
+            .contact{
+                display: flex;
+                flex-direction: row;
+                padding: 1rem;
+                align-items: center;
+                width: 100%;
+                gap: 1rem;
+                box-sizing: border-box;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.133);
+
+                h3{
+                    font-size: smaller;
+                }
+
+                h4{
+                    font-size: smaller;
+                }
+
+                img{
+                    border-radius: 50%;
+                    background-color: #757171;
+                    height: 45px;
+                    width: 45px;
+                    object-fit: cover;
+                }
+
+                .userdata{
+                    align-items: flex-start;
+                }
+
+                .history{
+                    display: flex;
+                    align-items: flex-start;
+                    margin-left: auto;
+                    height: 100%;
+                }
+            }
+        }
+
+        .contact:hover{
+            background-color: #3f3f3f;
+        }
+    }
+
+    .message-box{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        border-left: 1px solid rgba(255, 255, 255, 0.157);
+
+        .header{
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: row;
+            background-color: #232121;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.195);
+            align-items: center;
+            justify-content: space-between;
+
+            .userdata{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 5%;
+
+                img{
+                    border-radius: 50%;
+                    background-color: #757171;
+                    height: 30px;
+                    width: 30px;
+                    object-fit: cover;
+                    aspect-ratio: 4/3;
+                }
+
+                .desc{
+                    h3,h4{
+                        white-space: nowrap;
+                        font-size: smaller;
+                    }
+                }
+
+            }
+
+            .tools{
+                display: flex;
+                gap: 15px;
+
+
+            }
+        }
+
+        .text-box{
+            padding: 0.5rem;
+            display: flex;
+            flex:1;
+            overflow-y: scroll;
+           
+        }
+
+        .footer{
+            background-color: transparent;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            position: relative;
+            
+            
+
+            input{
+                padding: 1rem;
+                border-radius: 2rem;
+                background-color:#232121 ;
+                border: none;
+                width: 100%;
+                margin: 0px 3%;
+                margin-bottom: 2%;
+                padding-left: 12%;
+                align-items: center;
+                color: white;
+            }
+
+            .icon-1{
+                position: absolute;
+                top: 30%;
+                left: 9%;
+                transform: translateY(-30%);
+            }
+
+            .icon-2 {
+                position: absolute;
+                top: 30%;
+                left: 5%;
+                transform: translateY(-30%);
+            }
+
+
+
+            input:focus{
+                outline: none;
+                cursor: text;
+                color: white;
+                
+            }
+        }
+
+    }
+}
+
+/* Scrollbar Track */
+.contact-section::-webkit-scrollbar {
+    width: 4px;
+    position: absolute;
+}
+
+/* Scrollbar Thumb */
+.contact-section::-webkit-scrollbar-thumb {
+    background-color: #363636;
+    border-radius: 10px;
+    height: 12px;
+    width: 12px;
+}
+
+/* On hover */
+.contact-section::-webkit-scrollbar-thumb:hover {
+    background-color: #363636;
+}
+
+/* Scrollbar Track Background */
+.contact-section::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 10px;
+    width: 1px;
+}
+
+/*======TextBox===== */
+
+/* Scrollbar Track */
+.text-box::-webkit-scrollbar {
+    width: 6px;
+    position: absolute;
+}
+
+/* Scrollbar Thumb */
+.text-box::-webkit-scrollbar-thumb {
+    background-color: #363636;
+    border-radius: 10px;
+    height: 12px;
+    width: 12px;
+}
+
+/* On hover */
+.text-box::-webkit-scrollbar-thumb:hover {
+    background-color: #363636;
+}
+
+/* Scrollbar Track Background */
+.text-box::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 10px;
+    width: 1px;
+}
