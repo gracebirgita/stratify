@@ -1,0 +1,559 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body{
+    margin: 0;
+    padding: 0;
+    height: 100dvh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: url("/bg/blue stock.jpeg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+body::before{
+    content: "";
+    position: absolute;
+    inset: 0; /*same as top:0, bot:0, right:0, left:0 */
+    background: inherit;
+    filter: blur(5px);
+    z-index: -1;
+}
+
+
+h1{
+    color: white;
+    font-family: montserrat;
+    margin: 0px;
+}
+
+h3{
+    color:white;
+    font-family:poppins;
+    margin: 0px;
+}
+
+h4{
+    color:white;
+    font-family:poppins;
+    margin:0px;
+    font-weight: 300;
+}
+
+  /*-----Login------*/
+
+.wrapper{
+    height: 65%;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    border-radius: 12px;
+     /* offset-x offset-y blur-radius spread-radius color */
+     /* horizontal vertical */
+     /* positive right, negative left */
+     /* positve down, negative up */
+    box-shadow: 2px 2px 5px 0.5px rgba(0, 0, 0, 0.3);
+    background-color: white;
+    position: relative;
+    
+
+    
+
+    h1,h3,h4{
+        color: black;
+    }
+    
+    .welcome{
+        display: none; /*initialState so when the page load it won't show a preview*/
+        flex-direction: column;
+        justify-content: center;
+        gap:6%;
+        align-items: center;
+        width: 60%;
+        padding: 3rem;
+        background-color: rgb(44, 44, 144);
+        border-top-right-radius: 30%;
+        border-top-left-radius: 12px;
+        border-bottom-right-radius: 30%;
+        border-bottom-left-radius: 12px;
+        transition: transform 0.5s ease-in-out;
+        
+
+        h1,h3,h4{
+            color: white;
+            white-space: nowrap;
+        }
+
+        h3{
+            font-size: smaller;
+            font-size: 70%;
+            font-weight: 300;
+            text-decoration: underline;
+            text-underline-offset: 1.5px;
+        }
+
+        h1{
+            font-size: 150%;
+        }
+
+        button{
+            background-color: transparent;
+            border: 1px solid white;
+            padding: 5px 15px;
+            border-radius: 8px;
+            
+            
+            color: white;
+            font-family: montserrat;
+            text-decoration: none;
+            
+
+        }
+    }
+    
+    .input-form{
+        width: 40%;
+        display: none; /*initialState so when the page load it won't show a preview*/
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        padding: 3rem;
+        gap:3px;
+        transition: transform 0.5s ease-in-out;
+
+        h1{
+            font-size: 150%;
+        }
+    
+        h3{
+            font-size: smaller;
+            font-weight: 300;
+            text-decoration: none;
+            
+        }
+
+        .email{
+            margin-bottom: 5%;
+            margin-top: 10%;
+        }
+    
+        .email,
+        .password{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+
+            input{
+                padding: 4px;
+                border-radius: 4px;
+                border: 0.5px solid rgba(0, 0, 0, 0.523);
+                width:100%;
+                box-sizing: border-box;
+            }
+
+            
+
+            label{
+                position: absolute;
+                top: 50%;
+                left: 5%;
+                transform: translateY(-50%);
+                font-size: 16px;
+                transition: 0.2s ease all;
+                pointer-events: none;
+                
+                
+                    h4{
+                        color: rgba(0, 0, 0, 0.317);
+                        font-weight: 300;
+                        font-size: smaller;
+                        font-family: poppins;
+                    }
+            }
+
+            input:focus{
+                border: 1px solid rgb(0, 0, 0);
+                outline: none;
+            }
+
+            input:focus + label,
+            input:not(:placeholder-shown) + label{
+                top: -6px;
+                left: 1%;
+                font-size: 10px;
+                
+                h4{
+                    color: #000000;
+                    font-family: poppins;
+                }
+
+            }
+
+        }
+
+        .add-ons{
+            margin-top: 2%;
+            margin-bottom: 5%;
+            font-size: 60%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            .forgot{
+                text-decoration: none;
+                text-underline-offset: 1.5px;
+                cursor: pointer;
+            }
+
+            .forgot:hover{
+                color: rgb(8, 0, 255);
+            }
+
+
+            .remember{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap:5px;
+                
+                input{
+                    margin: 0;
+                }
+            }
+        }
+        
+
+        .btn-login{
+            background-color: rgb(44, 44, 144);
+            padding: 5px 15px;
+            border-radius: 4px;
+            border: none;
+            margin-bottom: 3%;
+            
+           
+            h3{
+                color: white;
+                font-family: montserrat;
+            }
+        }
+
+    }
+
+    /*-----Register------*/
+
+    .input-form-register{
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        padding: 3rem;
+        gap:3px;
+        transition: transform 0.5s ease-in-out;
+
+        h1{
+            font-size: 150%;
+        }
+    
+        h3{
+            font-size: smaller;
+            font-weight: 300;
+            text-decoration: none;
+            
+        }
+
+        .fieldUsername{
+            margin-top: 6%;
+        }
+
+        .fieldEmail{
+            margin-top: 6%;
+            margin-bottom: 6%;
+        }
+
+        .fieldPassword{
+            margin-bottom: 6%;
+        }
+
+        .fieldConfirm{
+            margin-bottom: 5%;
+        }
+        
+        .fieldUsername,
+        .fieldEmail,
+        .fieldPassword,
+        .fieldConfirm{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+
+            input{
+                padding: 4px;
+                border-radius: 4px;
+                border: 0.5px solid rgba(0, 0, 0, 0.523);
+                width:100%;
+                box-sizing: border-box;
+            }
+
+            label{
+                position: absolute;
+                top: 50%;
+                left: 5%;
+                transform: translateY(-50%);
+                font-size: 16px;
+                transition: 0.2s ease all;
+                pointer-events: none;
+                
+                    h4{
+                        color: rgba(0, 0, 0, 0.317);
+                        font-weight: 300;
+                        font-size: smaller;
+                        font-family: poppins;
+                    }
+            }
+
+            input:focus{
+                border: 1px solid rgb(0, 0, 0);
+                outline: none;
+            }
+
+            input:focus + label,
+            input:not(:placeholder-shown) + label{
+                top: -6px;
+                left: 1%;
+                font-size: 10px;
+                
+                h4{
+                    color: #000000;
+                    font-family: poppins;
+                }
+
+            }
+
+        }
+
+
+        .btn-login{
+            background-color: rgb(44, 44, 144);
+            padding: 5px 15px;
+            border-radius: 4px;
+            border: none;
+            margin-bottom: 3%;
+            
+           
+            h3{
+                color: white;
+                font-family: montserrat;
+            }
+        }
+
+    }
+
+    .welcome-register{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap:6%;
+        align-items: center;
+        width: 40%;
+        padding: 3rem;
+        background-color: rgb(44, 44, 144);
+        border-top-right-radius: 12px;
+        border-top-left-radius: 30%;
+        border-bottom-right-radius: 12px;
+        border-bottom-left-radius: 30%;
+        transition: transform 0.5s ease-in-out;
+        
+    
+        h1,h3,h4{
+            color: white;
+        }
+
+        h3{
+            font-size: smaller;
+            font-size: 70%;
+            font-weight: 300;
+            text-decoration: underline;
+            text-underline-offset: 1.5px;
+        }
+
+        h1{
+            font-size: 150%;
+        }
+
+        button{
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 8px;
+            font-family: montserrat;
+
+        }
+        
+    }
+
+    .welcome-register.active{
+        transform: translateX(-100%);
+        border-top-right-radius: 30%;
+        border-top-left-radius: 12px;
+        border-bottom-right-radius: 30%;
+        border-bottom-left-radius: 12px;
+        z-index: 3;
+        
+    }
+
+    .input-form-register.active{
+        transform: translateX(100%);
+       
+       
+    }
+
+    .welcome.active{
+        transform: translateX(100%);
+        border-top-right-radius: 12px;
+        border-top-left-radius: 30%;
+        border-bottom-right-radius: 12px;
+        border-bottom-left-radius: 30%;
+        z-index: 3;
+    }
+
+    .input-form.active{
+        transform: translateX(-100%);
+       
+    }
+    
+}
+
+@keyframes fadeAnim {
+    0%,50%{
+        opacity: 0;     
+    }
+
+    100%{
+        opacity: 1;
+    }
+}
+
+/* slide controls */
+
+.slide-controls {
+  display: flex;
+  height: 50px;
+  width: 100%;
+  border-radius: 5px;
+  margin: 10px 0 10px 0;
+  background: #f0f0f0;
+  border: 1px solid lightgrey;
+  position: relative;
+  color:black;
+  font-family:poppins;
+  border-radius:8px;
+  
+  
+}
+
+.slide-controls input[type="radio"] {
+  display: none;
+}
+
+.slide-controls .slide {
+  flex: 1;
+  text-align: center;
+  line-height: 25px;
+  font-size:12px;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius:8px;
+}
+
+.slide-controls input#company:checked ~ label.company,
+.slide-controls input#investor:checked ~ label.investor {
+  background:rgb(21, 23, 107);
+  color: white;
+  border-radius:8px;
+}
+
+/* messages */
+
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.messages-header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.messages-main {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.unread-section, .my-connections-section {
+  margin-bottom: 20px;
+}
+
+.unread-section h2, .my-connections-section h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.message-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+
+.message-sender {
+  font-weight: bold;
+  color: #333;
+}
+
+.message-content {
+  color: #555;
+  margin-top: 5px;
+}
+
+.messages-footer {
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-top: 1px solid #ddd;
+}
+
+.messages-footer input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* error */
+
+canvas{
+
+    h4{
+        font-size:8px
+    }
+}

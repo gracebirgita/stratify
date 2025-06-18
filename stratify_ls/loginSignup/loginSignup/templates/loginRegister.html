@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="{% static 'css/signin-signup.css' %}">
+   
+</head>
+<body>
+    <div class="wrapper">
+        <div class="welcome" id="login-form-left">
+            <h1>Welcome, Back!</h1>
+            <h3>Dont have an account?</h3>
+            <button onclick="displayRegister()">Register Here</button>
+        </div>
+        <form class="input-form" id="login-form-right" method="POST">
+            {% csrf_token %}
+            <h1>Login</h1>
+            <h4>Start your session</h4>
+            <div class="email">
+                <input type="text" class="input-email" id="emailLogin" name="username" placeholder="" required> 
+                <label for="emailLogin"><h4>Username</h4></label>
+            </div>
+            <div class="password">
+                <input type="password" class="input-password" id="passwordLogin" name="password" placeholder="" required>
+                <label for="passwordLogin"><h4>Password</h4></label>
+            </div>
+            <div class="add-ons">
+                <div class="remember">
+                    <input type="checkbox" id="remember-me">
+                    <label for="remember-me"><h3>Remember Me</h3></label>
+                </div>
+                <h3 class="forgot"><a href="{% url 'forgot-password' %}">Forgot Password?</a></h3>
+            </div>
+            <button type="submit" class="btn-login" name="login"><h3>Login</h3></button>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if 'login' in message.tags %}
+                        {% if 'error' in message.tags %}
+                            <center><h4 style="color: firebrick;">{{message}}</h4></center>
+                        {% else %}
+                            <center><h4 style="color: green;">{{message}}</h4></center>
+                        {% endif %}
+                    {% endif%}
+                {% endfor %}
+            {% endif %}
+        </form>
+       
+        <form class="input-form-register" id="register-form-left" method="POST">
+            {% csrf_token %}
+            <h1>Register</h1>
+            <h4>Buat akun sekarang</h4>
+            <div class="slide-controls">
+                <input type="radio" name="role" id="company" value="1" {% if role == '1' %}checked{% endif %}>
+                <label for="company" class="slide company">Company</label>
+                <input type="radio" name="role" id="investor" value="2" {% if role == '2' %}checked{% endif %}>
+                <label for="investor" class="slide investor">Investor</label>
+            </div>
+            <div class="fieldUsername">
+                <input type="text" class="input-username" id="username" name="username" placeholder="" required>
+                <label for="username"><h4>Username</h4></label>
+            </div>
+            <div class="fieldEmail">
+                <input type="email" class="input-email" id="emailRegister" name="email"   placeholder="" required>
+                <label for="emailRegister"><h4>Email</h4></label>
+            </div>
+            <div class="fieldPassword">
+                <input type="password" class="input-password" id="passwordRegister" name="password" placeholder="" required>
+                <label for="passwordRegister"><h4>Password</h4></label>
+            </div>
+            <div class="fieldConfirm">
+                <input type="password" class="confirm-password" id="confirmpass" name="confirmPassword" placeholder="" required>
+                <label for="confirmpass" id><h4 id="labelCF">Confirm Password</h4></label>
+            </div>
+            <button type="submit" class="btn-login" name="register"><h3>Register</h3></button>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if 'register' in message.tags %}
+                        {% if 'error in message.tags' %}
+                            <center><h4 style="color: firebrick;">{{message}}</h4></center>
+                        {% else %}
+                            <center><h4 style="color: green;">{{message}}</h4></center>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </form>
+        <div class="welcome-register" id="register-form-right">
+            <h1>Hello,Welcome!</h1>
+            <h3>Already have an account?</h3>
+            <button onclick="displayLogin()">Login Here</button>
+        </div>
+    </div>
+</body>
+ <script src="{% static 'js/registerLogin.js' %}"></script>
+</html>

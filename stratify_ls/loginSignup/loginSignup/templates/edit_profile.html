@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <script src="https://kit.fontawesome.com/43c9ab6ad0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/editCompanyInvestorProfile.css' %}">
+</head>
+<body>
+  <div class="profile-form">
+    {% if request.user.role == 1 %}
+     <h1 class="form-title">Edit {{request.user.username}} Company's Profile</h1>
+    {% elif request.user.role == 2 %}
+      <h1 class="form-title">Edit {{request.user.username}}'s Profile</h1>
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <!-- Company Basic Info -->
+      <div class="form-section">
+        <div class="form-group">
+          {% if request.user.role == 1 %}
+            <label for="company-name">Company Name</label>
+            <input type="text" id="company-name" placeholder="Company Name" required name="company_name">
+          {% elif request.user.role == 2 %}
+            <label for="investor-name">Investor Name</label>
+            <input type="text" id="investor-name" placeholder="Investor Name" required name="investor_name">
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" id="location" placeholder="Location name" name="location">
+        </div>
+        <div class="form-group">
+          <label for="website">Website</label>
+          <input type="url" id="website" placeholder="https://www.wikipedia.org"  name="website">
+        </div> 
+      </div>
+
+      <!--Picture Section-->
+      <div class="form-section">
+        <div class="form-group">
+          <label>Profile Picture</label>
+          <div class="upload">
+            <div class="current-picture">
+              <img src="profile_pics/dokumentasi_31_mei_2025_VIQ0df3.png" alt="#" id="profileImagePreview">
+            </div>
+            <div class="file-upload">
+              <button type="button" class="clear-profile">Clear</button>
+              <input type="file" id="profile-upload" accept="image/*" name="profile_picture">
+              <label for="profile-upload" class="upload-btn">Choose File</label>
+              <span class="file-name">No file chosen</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>BG Picture</label>
+          <div class="upload">
+            <div class="current-BG">
+              <img src="profile_pics/dokumentasi_31_mei_2025_VIQ0df3.png" alt="#" id="bgImagePreview">
+            </div>
+            <div class="file-upload">
+              <button type="button" class="clear-bg">Clear</button>
+              <input type="file" id="bg-upload" accept="image/*" name="profile_bg">
+              <label for="bg-upload" class="upload-btn">Choose File</label>
+              <span class="file-name">No file chosen</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selection -->
+      <div class="form-section">
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" name="category">
+            <option value="">Select Category</option>
+              <option value="FnB" {% if category_filter == 'FnB' %}selected{% endif %}>FnB</option>
+              <option value="Jasa" {% if category_filter == 'Jasa' %}selected{% endif %}>Jasa</option>
+              <option value="Grosir" {% if category_filter == 'Grosir' %}selected{% endif %}>Grosir</option>
+              <option value="Peralatan Gudang" {% if category_filter == 'Peralatan Gudang' %}selected{% endif %}>Peralatan Gudang</option>
+              <option value="Dekorasi" {% if category_filter == 'Dekorasi' %}selected{% endif %}>Dekorasi</option>
+              <option value="Other" {% if category_filter == 'Other' %}selected{% endif %}>Other</option>
+          </select>
+        </div>
+        {% if request.user.role == 1 %}
+          <div class="form-group">
+            <label for="reputation">Reputation</label>
+            <select id="reputation" name="reputation">
+              <option value="">Select Reputation Level</option>
+              <option value="excellent">Excellent</option>
+              <option value="good">Good</option>
+              <option value="fair">Fair</option>
+            </select>
+          </div>
+        {% endif %}
+        {% if request.user.role == 1 %}
+        <div class="form-group">
+          <label for="umkm-level">UMKM Level</label>
+          <select id="umkm-level" name="umkm_level">
+            <option value="">Select UMKM Level</option>
+            <option value="micro">Micro</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+          </select>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Vision & Mission & Bio & UserDetail -->
+      <div class="form-section">
+        <div class="form-group">
+          <label for="bio">Bio</label>
+          <textarea id="bio" rows="3" name="bio" placeholder="Your Bio"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="vision">Vision</label>
+          <textarea id="vision" rows="3" name="vision" placeholder="Your Vision"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="mission">Mission</label>
+          <textarea id="mission" rows="3" name="mission" placeholder="Your Mission"></textarea>
+        </div>
+        <div class="form-group">
+          <label for ="userDetail">UserDetail</label>
+          <textarea id="UserDetail" rows="3" name="mission" placeholder="Your Mission"></textarea>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+          <a href="{% url 'view_profile' request.user.username %}" class="btn btn-secondary">
+              <button type="button" class="cancel-btn">Cancel</button>
+          </a>
+          <button type="submit" class="submit-btn">Save Changes</button>
+      </div>
+    </form>
+  </div>
+  <script src="{% static 'js/editProfile.js' %}"></script>
+</body>
+</html>
+
+
+
+
+

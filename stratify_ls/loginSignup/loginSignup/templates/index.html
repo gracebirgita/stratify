@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stratify Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <script src="https://kit.fontawesome.com/43c9ab6ad0.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="nav-left">
+            <div class="top">
+                <a href="{% url 'home' %}">
+                    <div class="mainIcon">
+                        <img src="{% static '/icon/navbar-icons/Stratify Icon.png' %}">
+                    </div>
+                </a>
+                <a href="{% url 'landingPage' %}">
+                    <div class="landingpage">
+                        <i class="fa-solid fa-rocket"></i>
+                        <h3>Landing Page</h3>
+                    </div>
+                </a>
+                    <a href="{% url 'home' %}">
+                    <div class="home">
+                        <i class="fa-solid fa-table-columns"></i>
+                        <h3>Dashboard</h3>
+                    </div>
+                </a>
+                <a href="{% url 'messages' user.username %}">
+                    <div class="messaging">
+                        <i class="fa-solid fa-message"></i>
+                        <h3>Messaging</h3>
+                    </div>
+                </a>
+                {% if request.user.role == 1 %}
+                    <a href="{% url 'analyticsCompany' %}">
+                        <div class="analytics">
+                            <i class="fas fa-chart-simple"></i>
+                            <h3>Analytics</h3>
+                        </div>
+                    </a>
+                {% elif request.user.role == 2 %}
+                    <a href="{% url 'analyticsInvestor' %}">
+                        <div class="account">
+                            <i class="fas fa-chart-simple"></i>
+                            <h3>Analytics</h3>
+                        </div>
+                    </a>
+                {% endif %}
+                <a href="{% url 'logout' %}" class="logout">
+                    <div class="logout">
+                        <i class="fas fa-sign-out-alt"></i> 
+                        <h3>Logout</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- FILTER -->
+        <div class="dashboard-content">
+            <div class="title">
+                {% if request.user.role == 1 %}
+                    <h3>Welcome, {{ user.username }} </h3>
+                {% elif request.user.role == 2 %}
+                    <h3>Welcome, {{ user.username }}</h3>
+                {% else %}
+                    <h3>You do not have access to this feature.</h3>
+                {% endif %}
+            </div>
+            <div class="roles">
+                <a href="{% url 'home' %}{% if search_query %}?search={{ search_query }}{% endif %}" class="{% if not role_filter or role_filter == 'All' %}active{% endif %}">
+                    All User
+                </a>
+                <a href="?role=Company{% if search_query %}&search={{ search_query }}{% endif %}" class="{% if role_filter == 'Company' %}active{% endif %}">
+                    Company
+                </a>
+                <a href="?role=Investor{% if search_query %}&search={{ search_query }}{% endif %}" class="{% if role_filter == 'Investor' %}active{% endif %}">
+                    Investor
+                </a>
+            </div>
+            <div class="filters">
+                <form method="GET" action="" class="filterForm">
+                    <input type="hidden" name="role" value="{{ role_filter }}">
+                    <input type="text" name="search" placeholder="Search by name..." value="{{ request.GET.search }}" class="searchData">
+                    <button type ="submit" class="searchInput">search</button>
+                    {% if role_filter == 'Company' or role_filter == 'All' or role_filter == '' %}
+                        <select name="category" class="categor" >
+                            <option value="">Category</option>
+                            <option value="FnB" {% if category_filter == 'FnB' %}selected{% endif %}>FnB</option>
+                            <option value="Jasa" {% if category_filter == 'Jasa' %}selected{% endif %}>Jasa</option>
+                            <option value="Grosir" {% if category_filter == 'Grosir' %}selected{% endif %}>Grosir</option>
+                            <option value="Peralatan Gudang" {% if category_filter == 'Peralatan Gudang' %}selected{% endif %}>Peralatan Gudang</option>
+                            <option value="Dekorasi" {% if category_filter == 'Dekorasi' %}selected{% endif %}>Dekorasi</option>
+                            <option value="Other" {% if category_filter == 'Other' %}selected{% endif %}>Other</option>
+                        </select>
+                        <select name="reputation" class="repu">
+                            <option value="">Reputation</option>
+                            <option value="Basic" {% if reputation_filter == 'Basic' %}selected{% endif %}>Basic</option>
+                            <option value="Intermediate" {% if reputation_filter == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+                            <option value="Professional" {% if reputation_filter == 'Professional' %}selected{% endif %}>Professional</option>
+                        </select>
+                        <button type ="submit" class="filterSubmit">Apply Filters</button>
+                    {% endif %}
+                </form>
+            </div>
+            <div class="content">
+                <div class="listings">
+                    <table>
+                        <thead>
+                            {% if role_filter == 'Company' %}
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Category</th>
+                                    <th>Reputation</th>
+                                    <th>Actions</th>
+                                </tr>
+                            {% elif role_filter == 'Investor' %}
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            {% elif role_filter == 'All' or role_filter == '' %}
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Category</th>
+                                    <th>Reputation</th>
+                                    <th>Actions</th>
+                                </tr>
+                            {% endif %}
+                        </thead>
+                        <tbody>
+                            {% if role_filter == 'Company' %}  <!--Company-->
+                                {% if companies %}
+                                    {% for company in companies %}
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <img 
+                                                src="https://ui-avatars.com/api/?name={{ company.username|urlencode }}&size=64&background=random" 
+                                                alt="{{ company.username }}'s Profile Image"
+                                                style="width: 1.8rem; height: 1.8rem; object-fit: cover; border-radius:50%"
+                                                />
+                                                {{ company.username }}
+                                            </div>
+                                        </td>
+                                        <td>{{ company.email }}</td>
+                                        <td>{{ company.category }}</td>
+                                        <td>{{ company.reputation }}</td>
+                                        <td>
+                                            <div>
+                                                {% if request.user.role == 2 %}
+                                                    <button class="invest"><a href="{% url 'view_profile' company.username %}">+ Invest</a></button>
+                                                {% elif request.user.role == 1%}
+                                                    <button class="view"> <a href="{% url 'view_profile' company.username %}">View Profile</a></button>
+                                                {% endif %}
+                                            <div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan='6'>No companies available.</td>
+                                    </tr>
+                                {% endif %}
+                            {% elif role_filter == 'Investor' %} <!--Investor-->
+                                {% if investors %}
+                                    {% for investor in investors %}
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <img 
+                                                    src="https://ui-avatars.com/api/?name={{ investor.username|urlencode }}&size=64&background=random" 
+                                                    alt="{{ investor.username }}'s Profile Image"
+                                                    class="profile-icon rounded-circle"
+                                                    style="width: 1.8rem; height: 1.8rem; object-fit: cover; border-radius:50%"
+                                                />
+                                                {{investor.username}}
+                                            </div>
+                                        </td>
+                                        <td>{{investor.email}}</td>
+                                        <td>
+                                            <div>
+                                                {% if request.user.role == 2 %}
+                                                    <button class="invest"><a href="{% url 'view_profile' investor.username %}"> + Invest</a></button>
+                                                {% endif %}
+                                                {% if request.user.role == 1 %}
+                                                <button class="view"> <a href="{% url 'view_profile' investor.username %}"> View Profile</a></button>
+                                                {% endif %}
+                                            <div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan='6'>No Investor available.</td>
+                                    </tr>
+                                {% endif %}
+                            {% else %} <!--All User (Investor & Company)-->
+                                {% if companies %}
+                                    {% for company in companies %}
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <img 
+                                                src="https://ui-avatars.com/api/?name={{ company.username|urlencode }}&size=64&background=random" 
+                                                alt="{{ company.username }}'s Profile Image"
+                                                style="width: 1.8rem; height: 1.8rem; object-fit: cover; border-radius:50%"
+                                                />
+                                                {{ company.username }}
+                                            </div>
+                                        </td>
+                                        <td>{{ company.email }}</td>
+                                        <td>Company</td>
+                                        <td>{{ company.category }}</td>
+                                        <td>{{ company.reputation }}</td>
+                                        <td>
+                                            <div>
+                                                {% if request.user.role == 2 %}
+                                                    <button class="invest"><a href="{% url 'view_profile' company.username %}">+ Invest</a></button>
+                                                {% endif %}
+                                                {% if request.user.role == 1 %}
+                                                    <button class="view"> <a href="{% url 'view_profile' company.username %}">View Profile</a></button>
+                                                {% endif%}
+                                            <div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan='6'>No companies available.</td>
+                                    </tr>
+                                {% endif %}
+                                {% if investors %}
+                                    {% for investor in investors %}
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <img 
+                                                    src="https://ui-avatars.com/api/?name={{ investor.username|urlencode }}&size=64&background=random" 
+                                                    alt="{{ investor.username }}'s Profile Image"
+                                                    class="profile-icon rounded-circle"
+                                                    style="width: 1.8rem; height: 1.8rem; object-fit: cover; border-radius:50%"
+                                                />
+                                                {{investor.username}}
+                                            </div>
+                                        </td>
+                                        <td>{{investor.email}}</td>
+                                        <td>Investor</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>
+                                            <div>
+                                                {% if request.user.role == 2 %}
+                                                    <button class="invest"><a href="{% url 'view_profile' investor.username %}"> + Invest</a></button>
+                                                {% elif request.user.role == 1 %}
+                                                    <button class="view"> <a href="{% url 'view_profile' investor.username %}"> View Profile</a></button>
+                                                {% endif %}
+                                            <div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan='6'>No Investor available.</td>
+                                    </tr>
+                                {% endif %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>

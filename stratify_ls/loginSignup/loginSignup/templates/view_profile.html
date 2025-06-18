@@ -1,0 +1,231 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'css/view_profile.css' %}">
+    <script src="https://kit.fontawesome.com/43c9ab6ad0.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="custom-alert {{ message.tags }}">
+                <span>{{ message }}</span>
+                <button class="close-alert" onclick="this.parentElement.style.display='none';">&times;</button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="dashboard-container">
+        <div class="nav-left">
+                <div class="top">
+                    <a href="{% url 'home' %}">
+                        <div class="mainIcon">
+                            <img src="{% static '/icon/navbar-icons/Stratify Icon.png' %}">
+                        </div>
+                    </a>
+                    <a href="{% url 'landingPage' %}">
+                        <div class="landingpage">
+                            <i class="fa-solid fa-rocket"></i>
+                            <h3>Landing Page</h3>
+                        </div>
+                    </a>
+                        <a href="{% url 'home' %}">
+                        <div class="home">
+                            <i class="fa-solid fa-table-columns"></i>
+                            <h3>Dashboard</h3>
+                        </div>
+                    </a>
+                    <a href="{% url 'messages' user.username %}">
+                        <div class="messaging">
+                            <i class="fa-solid fa-message"></i>
+                            <h3>Messaging</h3>
+                        </div>
+                    </a>
+                    {% if request.user.role == 1 %}
+                        <a href="{% url 'analyticsCompany' %}">
+                            <div class="analytics">
+                                <i class="fas fa-chart-simple"></i>
+                                <h3>Analytics</h3>
+                            </div>
+                        </a>
+                    {% elif request.user.role == 2 %}
+                        <a href="{% url 'analyticsInvestor' %}">
+                            <div class="account">
+                                <i class="fas fa-chart-simple"></i>
+                                <h3>Analytics</h3>
+                            </div>
+                        </a>
+                    {% endif %}
+                        <a href="{% url 'logout' %}" class="logout">
+                        <div class="logout">
+                            <i class="fas fa-sign-out-alt"></i> 
+                            <h3>Logout</h3>
+                        </div>
+                    </a>
+                </div>
+        </div>
+        <div class="content">
+            <div class="left">
+                <div class="profile">
+                    <div class="imgBG">
+                        {% if profile_user.profile_picture %}
+                            <img src="{{ profile_user.profile_bg.url }}" class="profile-picture">
+                        {% elif profile_user.role == 1 %}
+                            <img src="{% static "bg/bluestock.jpeg" %}" class="profile-picture">
+                        {% elif profile_user.role == 2 %}
+                            <img src="{% static "bg/bluestock.jpeg" %}" class= "profile-pictrue">
+                        {% endif %}
+                    </div>
+                    {% if profile_user.profile_picture  %}
+                        <img src="{{ profile_user.profile_picture.url}}" class="profileImg">
+                    {% else %}
+                        <img src="{% static 'bg/blue-stock-(2).jpeg' %}" class="profileImg">
+                    {% endif %}
+                    <div class="btns">
+                         {% if is_owner %}
+                            <button>
+                                <a href="{% url 'edit_profile' profile_user.username %}" class="edit-button">Edit Profile</a>
+                            </button>
+                            <button>
+                                <a href="{% url 'analyticIndex' %}" class="add-activity-button">Add Analytics</a>
+                            </button>
+                        {% elif request.user.role == 2 and profile_user.role == 1 %}
+                            <!-- Investor viewing a Company -->
+                            <form method="post" action="{% url 'invest' profile_user.username %}">
+                                {% csrf_token %}
+                                <button type="submit" class="invest-button">Invest</button>
+                            </form>
+                            <button>
+                                <a href="{% url 'messages' user.username %}">Message</a>
+                            </button>
+                        {% elif request.user.role == 1 %}
+                            <!-- Company viewing any profile -->
+                            <button>
+                                <a href="{% url 'messages' user.username %}">Message</a>
+                            </button>
+                        {% elif request.user.role == 3 %}
+                            <button>
+                                <a href="{% url 'edit_profile' profile_user.username %}" class="edit-button">Edit Profile</a>
+                            </button>
+                            <button>
+                                <a href="{% url 'add_activity' %}" class="add-activity-button">Add Activity</a>
+                            </button>
+                             <button>
+                                <a href="{% url 'messages' user.username %}">Message</a>
+                            </button>
+                        {% endif%}
+                    </div>
+                    <div class="info">
+                        <h3>{{ profile_user.username }}</h3>
+                        <div class="detail">
+                            <h5 class="userDetail">{{ profile_user.userDetail|default:"No Details Provided" }}</h5>
+                        </div>
+                        <div class="extraDetail">
+                            {% if profile_user.umkm_level %}
+                                <h5 class="umkm-level">{{ profile_user.umkm_level }}</h5>
+                            {% endif %}
+                            {% if profile_user.reputation %}
+                                <h5 class="reputation">{{ profile_user.reputation }}</h5>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-information">
+                    <div class="title">
+                        <h3>Overview</h3>
+                    </div>
+                    <div class="data">
+                        <div class="dataAttribute">
+                            <h5>Location: </h5>
+                            <h5>{{ profile_user.location|default:"Not specified" }}</h5>
+                        </div>
+                        <div class="dataAttribute">
+                            <h5>Email:</h5>
+                            <h5>{{ profile_user.email|default:"Not specified" }}</h5>
+                        </div>
+                        <div class="dataAttribute">
+                            {% if profile_user.website %}
+                                <h5>Website:</h5>
+                                <h5><a href="{{ profile_user.website }}" target="_blank">{{ profile_user.website }}</a></h5>
+                            {% else %}
+                                <h5>Website:</h5>
+                                <h5>Not specified</h5>
+                            {% endif %}
+                        </div>
+                         <div class="dataAttribute">
+                            <h5>Category:</h5>
+                            <h5>{{ profile_user.category|default:"Not specified" }}</h5>
+                        </div>
+                        <div class="dataAttribute">
+                            <h5>Reputation:</h5>
+                            <h5>{{ profile_user.reputation|default:"Not specified" }}</h5>
+                        </div>
+                        <div class="dataAttribute">
+                            <h5>UMKM Level:</h5>
+                            <h5>{{ profile_user.umkm_level|default:"Not specified" }}</h5>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+            <div class="right">
+                <div class="about">
+                    <div class="aboutTitle">
+                        <h3>About {{ profile_user.username }}</h3>
+                    </div>
+                    <div class="aboutData">
+                        {% if profile_user.bio %}
+                            <h3>Bio</h3>
+                            <h5 class="bio">{{ profile_user.bio|default:"No bio provided." }}</h5>
+                        {% else %}
+                            <h3>Bio</h3>
+                            <h5 class="empty">No Bio Provided</h5>
+                        {% endif %}
+                    </div>
+                    <div class="aboutData">
+                        {% if profile_user.vision %}
+                            <h3>Vision</h3>
+                            <h5>{{ profile_user.vision }}</h5>
+                        {% else %}
+                            <h3>Vision</h3>
+                            <h5 class="empty">No Bio Provided</h5>      
+                        {% endif %}
+                    </div>
+                    <div class="aboutData">
+                        {% if profile_user.mission %}
+                            <h3>Mission</h3>
+                            <h5>{{ profile_user.mission }}</h5>
+                        {% else %}
+                            <h3>Mission</h3>
+                            <h5 class="empty">No Bio Provided</h5>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="userAnalytics">
+                    <h3>Analytics</h3>
+                    <div id="analytics" class="analytic">
+                        {% if charts %}
+                            {% for chart in charts %}
+                                <div id="chart-{{ forloop.counter }}"></div>
+                            {% endfor %}
+                        {% else %}
+                            <a href="{% url 'analyticIndex' %}">
+                                <div class="addChart">
+                                    <i class="fa-solid fa-plus"></i>
+                                    <h5>Add your chart data here</h5>
+                                </div>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const chartData = JSON.parse(`{{ charts_json|escapejs }}`);
+    </script>
+    <script src="{% static 'js/viewProfile.js' %}"></script>
+</body>
+</html>

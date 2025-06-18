@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>homeBusiness</title>
+    <link rel="stylesheet" href="{% static '/css/analytics.css' %}">
+    <script src="https://kit.fontawesome.com/43c9ab6ad0.js" crossorigin="anonymous"></script>
+    {% comment %} <script src="https://cdnjs.com/libraries/Chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> {% endcomment %}
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+   
+</head>
+<body>
+    <div class="container">
+        <nav class="nav-list">
+            <div class="top">
+                <a href="{% url 'home' %}"> <!--note tanda '' harus ada-->
+                <div class="mainIcon">
+                    <img src="{% static '/icon/navbar-icons/Stratify Icon.png' %}">
+                </div>
+                </a>
+                <a href="{% url 'landingPage' %}">
+                <div class="landingpage">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
+                </a>
+                <a href="{% url 'home' %}">
+                <div class="home">
+                    <i class="fa-solid fa-table-columns"></i>
+                </div>
+                </a>
+                <!--check parameter at chat/url.py-->
+                <a href="{% url 'messages' user.username %}"> 
+                <div class="messaging">
+                    <i class="fa-solid fa-message"></i>
+                </div>
+                </a>
+                {% if request.user.role == 1 %}
+                    <a href="{% url 'analyticsCompany' %}">
+                        <div class="analytics">
+                            <i class="fas fa-chart-simple"></i>
+                        </div>
+                    </a>
+                {% elif request.user.role == 2 %}
+                    <a href="{% url 'analyticsInvestor' %}">
+                        <div class="account">
+                            <i class="fas fa-chart-simple"></i>
+                        </div>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="bottom">
+                <a href="{% url 'home' %}">
+                <div class="setting">
+                    <i class="fa-solid fa-gear"></i>
+                </div>
+                </a>
+                <a href="{% url 'home' %}">
+                <div class="help">
+                    <i class="fa-solid fa-question"></i>
+                </div>
+                </a>
+            </div>
+        </nav>
+        <div class="right-section">
+                <div class="main">
+                    <div class="title-section">
+                        <div class="title">
+                            <h1>Welcome Back, {{user.username }}</h1>
+                            {% if request.user.role == 1 %}
+                            <h3>Track Your Business Performance and Make Smarter Decisions</h3>
+                            {% elif request.user.role == 2 %}
+                            <h3>Monitor Your Portfolio and Stay Ahead of the Market</h3>
+                            {% endif %}
+                        </div>
+                        <div class="addOns">
+                            <button>
+                                <a href="{% url 'analyticIndex' %}">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    <h3>Import</h3>
+                                </a>
+                            </button>
+                            <button>
+                                <i class="fa-solid fa-calendar-week"></i>
+                                <h3>Month</h3>
+                            </button>
+                            <button>
+                                <img 
+                                    src="https://ui-avatars.com/api/?name={{request.user.username|urlencode }}&size=64&background=random" 
+                                    alt="{{ request.user.username }}'s Profile Image"
+                                    class="profile-icon rounded-circle"
+                                    style="width: 1.5rem; height: 1.5rem; object-fit: cover"
+                                />
+                                <h3>
+                                    {{ request.user.username }}
+                                </h3>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-section">
+                        <div class="box">
+                            <div class="title">
+                                <i class="fa-solid fa-money-bill-transfer fa-xs"></i>
+                                <h3>Income</h3>
+                            </div>
+                            <div class="value">
+                                <h3>Rp 22.242.50</h3>
+                            </div>
+                            <div class="statusIncome">
+                                <h3>+2.5% from last month</h3>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="title">
+                                <i class="fa-solid fa-file-invoice-dollar fa-xs"></i>
+                                <h3>Total Spending</h3>
+                            </div>
+                            <div class="value">
+                                <h3>Rp 22.242.50</h3>
+                            </div>
+                            <div class="statusSpending">
+                                <h3>+2.5% from last month</h3>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="title">
+                                <i class="fa-solid fa-coins fa-xs"></i>
+                                <h3>This month's goal</h3>
+                            </div>
+                            <div class="value">
+                                <h3>Rp 44.485.00</h3>
+                            </div>
+                            <div class="statusGoal">
+                                <h3>+2.5% closer to this month's goal</h3>
+                            </div>
+                        </div>
+                        {% for chart in charts%}
+                            <div class="boxChart1">
+                                <div class="title">
+                                    <div class="sub-title">
+                                        <h3>{{chart.title}}</h3>
+                                    </div>
+                                    <div class="legend" id="customLegend-{{ forloop.counter }}">
+                                    </div>
+                                    <div class="date">
+                                        <h3>Month</h3>
+                                    </div>
+                                </div>
+                                <div class="barChart" id="barChart-{{ forloop.counter }}"></div>
+                                <div class="barStat">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Category</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="barStatBody-{{ forloop.counter }}">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="boxChart2">
+                                <div class="title">
+                                    <div class="sub-title">
+                                        <h3>{{chart.title}}</h3>
+                                    </div>
+                                    <div class="date">
+                                        <h3>Month</h3>
+                                    </div>
+                                </div>
+                                <div class="pieChart" id="pieChart-{{ forloop.counter }}"></div>
+                                <div class="pieStat">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Category</th>
+                                                <th>Value</th>
+                                            <tr>
+                                        </thead>
+                                        <tbody id="pieStatBody-{{ forloop.counter }}"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="customLegend" id="customLegend-{{ forloop.counter }}">
+                            </div>
+                        {% endfor %}
+                        {% if not charts %}
+                            <div class="boxChart1">
+                                <a href="{% url 'analyticIndex' %}">
+                                    <div class="addChart">
+                                        <i class="fa-solid fa-plus"></i>
+                                        <h5>Add your chart data here</h5>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="boxChart2">
+                                <a href="{% url 'analyticIndex' %}">
+                                    <div class="addChart">
+                                        <i class="fa-solid fa-plus"></i>
+                                        <h5>Add your chart data here</h5>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endif%}
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    //selectedChart.Data
+    const chartData = JSON.parse("{{ charts_json|escapejs }}");
+    console.log(chartData);
+    
+    for (let i = 0; i < chartData.length; i++) {
+        const chart1 = chartData[i];
+        const categories = chart1.labels;
+        const values = chart1.values;
+        const title = chart1.title;
+
+        // Create unique selectors
+        const barChartEl = document.querySelector(`#barChart-${i + 1}`);
+        const pieChartEl = document.querySelector(`#pieChart-${i + 1}`);
+        const barStatBody = document.querySelector(`#barStatBody-${i + 1}`);
+        const pieStatBody = document.querySelector(`#pieStatBody-${i + 1}`);
+        const customLegend = document.querySelector(`#customLegend-${i + 1}`);
+
+        // BAR CHART SETUP
+        const IncomeAndSpendingChart = {
+            chart: { type: 'bar', height: 300, toolbar: { show: false } },
+            series: [{ name: 'Pengeluaran', data: values }],
+            xaxis: {
+                categories: categories,
+                labels: { style: { colors: '#D9D9D9' } }
+            },
+            yaxis: {
+                labels: { style: { colors: '#D9D9D9' } }
+            },
+            grid: { borderColor: '#3e3d3d' },
+            legend: { show: false, labels: { colors: '#D9D9D9' } },
+            colors: ['#f44336'],
+            plotOptions: { bar: { columnWidth: '50%' } }
+        };
+
+        const BarChart = new ApexCharts(barChartEl, IncomeAndSpendingChart);
+        BarChart.render();
+
+        for (let j = 0; j < categories.length; j++) {
+            const row = `
+            <tr>
+                <td>${categories[j]}</td>
+                <td>Rp ${values[j].toLocaleString('id-ID')}</td>
+            </tr>`;
+            barStatBody.innerHTML += row;
+        }
+
+        // PIE CHART SETUP
+        const predefinedColors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40", "#66D9EF", "#F67280"];
+        const chartColors = predefinedColors.slice(0, categories.length);
+
+        const pieChartOptions = {
+            chart: { type: 'donut', height: 250 },
+            series: values,
+            labels: categories,
+            colors: chartColors,
+            legend: {
+                show: false,
+                position: 'bottom',
+                labels: { colors: '#D9D9D9' }
+            },
+            stroke: { show: true, width: 0.1, colors: '#ffffff' },
+            dataLabels: {
+                enabled: true,
+                style: { colors: ['#fff'] }
+            },
+            tooltip: {
+                y: { formatter: val => 'Rp ' + val.toLocaleString('id-ID') }
+            },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '70%',
+                        labels: {
+                            show: true,
+                            name: { show: true, color: '#fff' },
+                            value: {
+                                show: true,
+                                color: '#fff',
+                                style: { fontSize: '10px' },
+                                formatter: val => 'Rp ' + Number(val).toLocaleString('id-ID')
+                            },
+                            total: {
+                                show: true,
+                                label: 'Total',
+                                style: { color: '#FFFFFF' },
+                                formatter: function (w) {
+                                    const total = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                                    return 'Rp ' + total.toLocaleString('id-ID');
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        const PieChart = new ApexCharts(pieChartEl, pieChartOptions);
+        PieChart.render();
+
+        // LEGEND FOR BAR CHART
+        const visibleSeries = {};
+        IncomeAndSpendingChart.series.forEach((seriesItem, index) => {
+            visibleSeries[seriesItem.name] = true;
+
+            const legendItem = document.createElement("span");
+            legendItem.style = "display: inline-flex; align-items: center; margin-right: 16px; cursor: pointer; color: #FFFFFF";
+
+            const marker = document.createElement("span");
+            marker.style = `display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; background-color:${IncomeAndSpendingChart.colors[index]};`;
+
+            const label = document.createElement("span");
+            label.textContent = seriesItem.name;
+
+            legendItem.appendChild(marker);
+            legendItem.appendChild(label);
+
+            legendItem.addEventListener("click", () => {
+                BarChart.toggleSeries(seriesItem.name);
+                legendItem.style.color = visibleSeries[seriesItem.name] ? '#D9D9D9' : '#FFFFFF';
+                visibleSeries[seriesItem.name] = !visibleSeries[seriesItem.name];
+            });
+
+            customLegend.appendChild(legendItem);
+        });
+
+        // PIE STATS TABLE
+        for (let j = 0; j < values.length; j++) {
+            const value = values[j];
+            const label = categories[j];
+            const color = chartColors[j];
+
+            const row = document.createElement("tr");
+
+            const legendCell = document.createElement("td");
+            legendCell.style = "display:flex; align-items:center";
+
+            const marker = document.createElement("span");
+            marker.style = `display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; background-color:${color}`;
+
+            const labelText = document.createElement("span");
+            labelText.textContent = label;
+            labelText.style.color = "#FFFFFF";
+
+            legendCell.appendChild(marker);
+            legendCell.appendChild(labelText);
+
+            const valueCell = document.createElement("td");
+            valueCell.textContent = `Rp ${value.toLocaleString('id-ID')}`;
+
+            row.appendChild(legendCell);
+            row.appendChild(valueCell);
+
+            pieStatBody.appendChild(row);
+        }
+    }
+
+
+    
+
+});
+</script>
+</body>
+</html>

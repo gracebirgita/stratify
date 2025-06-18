@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body{
+  font-family: poppins;
+}
+
+.profile-form {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.form-title {
+  color: #2c3e50;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.form-section {
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #34495e;
+}
+
+input[type="text"],
+input[type="url"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.file-upload input[type="file"] {
+  display: none;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.upload {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  
+}
+
+.current-picture,
+.current-BG {
+  text-align: left;
+}
+
+.current-picture img,
+.current-BG img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 1px solid #eee;
+  margin-bottom: 10px;
+}
+
+.clear-profile,
+.clear-bg{
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: medium;
+  font-weight: 500;
+  display: none;
+}
+
+.file-upload {
+  flex-grow: 1;
+}
+
+.upload-btn {
+  display: inline-block;
+  background: #3498db;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+#logo-upload {
+  display: none;
+}
+
+.file-name {
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.cancel-btn {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-btn {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+}
