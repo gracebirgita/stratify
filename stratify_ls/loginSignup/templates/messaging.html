@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ room_name }}</title>
+    <script src="https://kit.fontawesome.com/43c9ab6ad0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/messaging.css' %}">
+  </head>
+  <body>
+    <div class="wrapper">
+        <nav class="nav-list">
+            <div class="top">
+              <a href="{% url 'home' %}"> <!--note tanda '' harus ada-->
+                <div class="mainIcon">
+                    <img src="{% static '/icon/navbar-icons/Stratify Icon.png' %}">
+                </div>
+              </a>
+              <a href="{% url 'landingPage' %}">
+                <div class="landingpage">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
+              </a>
+              <a href="{% url 'home' %}">
+                <div class="home">
+                    <i class="fa-solid fa-table-columns"></i>
+                </div>
+              </a>
+              <!--check parameter at chat/url.py-->
+              <a href="{% url 'messages' room_name %}"> 
+                <div class="messaging">
+                    <i class="fa-solid fa-message"></i>
+                </div>
+              </a>
+              {% if request.user.role == 1 %}
+                  <a href="{% url 'analyticsCompany' %}">
+                      <div class="analytics">
+                          <i class="fas fa-chart-simple"></i>
+                      </div>
+                  </a>
+              {% elif request.user.role == 2 %}
+                  <a href="{% url 'analyticsInvestor' %}">
+                      <div class="account">
+                          <i class="fas fa-chart-simple"></i>
+                      </div>
+                  </a>
+              {% endif %}
+            </div>
+            <div class="bottom">
+              <a href="{% url 'home' %}">
+                <div class="setting">
+                    <i class="fa-solid fa-gear"></i>
+                </div>
+              </a>
+              <a href="{% url 'home' %}">
+                <div class="help">
+                    <i class="fa-solid fa-question"></i>
+                </div>
+              </a>
+            </div>
+        </nav>
+        <div class="contact-section">
+             <div class="header">
+                <div class="title">
+                    <h1>Stratify</h1>
+                    <div class="title-addOns">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(255, 255, 255);"><path d="M3 16c0 1.103.897 2 2 2h3.586L12 21.414 15.414 18H19c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2v12zM5 4h14v12h-4.414L12 18.586 9.414 16H5V4z"></path><path d="M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(255, 255, 255);"><path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+                    </div>
+                </div>
+                <div class="search">
+                    <img src="{% static '/icon/navbar-icons/search.png' %}">
+                    <input type="text" placeholder="Search user..." id="userSearchInput" class="form-control">
+                </div>
+            </div>
+            <div class="contact-list">
+              {% for item in user_last_messages %}
+                <a
+                  href="{% url 'messages' item.user.username %}"
+                  class="list-group-item list-group-item-action contact-link 
+                    {% if not item.last_message %} no-messages-yet{% endif %}
+                    {% if item.user.username == room_name %} active {% endif %}"
+                  data-id="{{ room_name }}"
+                >
+                  <div class="contact">
+                    <img 
+                      src="https://ui-avatars.com/api/?name={{ item.user.username|urlencode }}&size=64&background=random" 
+                      alt="{{ item.user.username }}'s Profile Image"
+                      class="profile-icon rounded-circle"
+                      style="width: 1.8rem; height: 1.8rem; object-fit: cover"
+                    />
+                    <div class="userdata">
+                      <h3 class="name">{{ item.user.username }}</h3>
+                      <h4 class="lastChat">
+                        {% if item.last_message %}
+                          <small class="last-message">
+                            {% if item.last_message.sender == request.user %}You:
+                            {% endif %}
+                            {{ item.last_message.content |truncatewords:5}} 
+                          </small>
+                        {% else %}
+                          <small class="">No messages yet</small>
+                        {% endif %}
+                      </h4>
+                    </div>
+                    <div class="history">
+                      <h4 class="time">
+                        {% if item.last_message %}
+                          {{ item.last_message.timestamp|date:"H:i" }}
+                        {% endif %}
+                      </h4>
+                    </div>
+                  </div>
+                </a>
+              {% endfor %}
+          </div>
+        </div>
+        <div class="message-box" data-id = "{{ room_name }}">
+            <div class="header">
+                <div class="userdata">
+                    <img 
+                      src="https://ui-avatars.com/api/?name={{room_name|urlencode }}&size=64&background=random" 
+                      alt="{{ room_name }}'s Profile Image"
+                      class="profile-icon rounded-circle"
+                      style="width: 1.8rem; height: 1.8rem; object-fit: cover"
+                    />
+                    <div class="desc">
+                        <h3 class="name">{{room_name}}</h3>
+                        <h4 class="lastChat" id="header-time">last seen today at 
+                          {% if chat_partner_last_message %}
+                            {{ chat_partner_last_message.timestamp|date:"H:i" }}
+                          {% else %}
+                            click here for contact info
+                          {% endif %}
+                        </h4>
+                    </div>
+                </div>
+                <div class="tools">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(255, 255, 255);"><path d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(255, 255, 255);"><path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+                </div>
+            </div>
+            <div class="text-box" id="chatbox">
+                {% if chats %} 
+                {% for message in chats %}
+                <div
+                  class="chat-message {% if message.sender == request.user %} sender {% else %} receiver {% endif %}">
+                  <span>{{ message.message }}</span>
+                </div>
+                {% endfor %} 
+                {% else %}
+                  <p class="no-messages">No Messages.</p>
+                {% endif %}
+
+            </div>
+            <div class="footer">
+                <input form="text" placeholder="Type a message" required id ="my_input" class="form-control" >
+                <button id="submit_button" class="btn btn-primary" type="button">Send </button>
+                <svg class="icon-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(255, 255, 255);"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M14.829 14.828a4.055 4.055 0 0 1-1.272.858 4.002 4.002 0 0 1-4.875-1.45l-1.658 1.119a6.063 6.063 0 0 0 1.621 1.62 5.963 5.963 0 0 0 2.148.903 6.042 6.042 0 0 0 2.415 0 5.972 5.972 0 0 0 2.148-.903c.313-.212.612-.458.886-.731.272-.271.52-.571.734-.889l-1.658-1.119a4.017 4.017 0 0 1-.489.592z"></path><circle cx="8.5" cy="10.5" r="1.5"></circle><circle cx="15.493" cy="10.493" r="1.493"></circle></svg>
+                <svg class="icon-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(255, 255, 255);"><path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path></svg>
+            </div>
+        </div>
+    </div>
+
+    {{slug|json_script:"room_slug"}}
+
+  </body>
+  <script>
+    const chatbox = document.querySelector("#chatbox");
+
+    // Function to scroll to the bottom of the chatbox
+    function scrollToBottom() {
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    // Scroll to bottom when the page is loaded
+    scrollToBottom();
+
+    //get roomName
+    const roomName = JSON.parse(
+      document.getElementById("room_slug").textContent
+    );
+
+    const chatSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/chat/{{ room_name }}/"
+    );
+
+    chatSocket.onopen = function (e) {
+      console.log("The connection was set up successfully!");
+    };
+
+    chatSocket.onclose = function (e) {
+      console.log("Something unexpected happened!");
+    };
+
+    document.querySelector("#my_input").focus();
+    document.querySelector("#my_input").onkeyup = function (e) {
+      if (e.keyCode == 13) {
+        e.preventDefault();
+        document.querySelector("#submit_button").click();
+      }
+    };
+
+    document.querySelector("#submit_button").onclick = function (e) {
+    var messageInput = document.querySelector("#my_input").value;
+
+      if (messageInput.length == 0) {
+        alert("Add some input first");
+      } else {
+        console.log("Mengirim pesan ke server:", messageInput); // LOG DI SINI
+        chatSocket.send(
+          JSON.stringify({
+            message: messageInput,
+            username: "{{ request.user.username }}",
+            room_name: "{{ room_name }}",
+          })
+        );
+        document.querySelector("#my_input").value = ""; // Clear input field after sending
+      }
+    };
+
+    // Update the onmessage function to update the chat list
+    chatSocket.onmessage = function (e) {
+      const data = JSON.parse(e.data);
+      console.log("Pesan diterima dari server:", data); // LOG DI SINI
+
+      // Update the last message in the sidebar
+      const lastMessage = document.querySelector(
+        ".list-group-item.active .last-message");
+
+      if (data.message && data.sender) {
+        // Display the new message in the chatbox
+        const chatbox = document.querySelector("#chatbox");
+        const noMessages = document.querySelector(".no-messages");
+        if (noMessages) {
+          noMessages.style.display = "none";
+        }
+
+        const div = document.createElement("div");
+        div.className = "chat-message " + (data.sender === "{{ request.user.username }}" ? "sender" : "receiver");
+        div.innerHTML = `<div><span>${data.message}</span></div>`;
+        chatbox.appendChild(div);
+
+        // Scroll to the bottom of the chatbox
+        scrollToBottom();
+
+      };
+
+      if (lastMessage){    
+        currentUser = "{{ request.user.username }}";
+
+        lastMessage.innerHTML = data.sender === currentUser  ? "You: " + data.message : data.message; //sudah benar
+
+        // update timestamp in format of UTC time 12:00, 13:00 etc
+        const timestamp = document.querySelector(
+          ".list-group-item.active .time"
+        );
+
+        const date = new Date().toUTCString();
+        timestamp.innerHTML = date.slice(17, 22);
+
+        // update the chats list sorting by the last message timestamp in descending order
+        const chats = document.querySelectorAll(".list-group-item");
+        const chatsArray = Array.from(chats);
+
+        const chatsSorted = chatsArray.sort((a, b) => {
+          const aTime = a.querySelector("small").innerHTML;
+          const bTime = b.querySelector("small").innerHTML;
+
+          // Parse time in "HH:mm" format to minutes
+          const parseTime = (timeStr) => {
+            const [hours, minutes] = timeStr.split(":").map(Number);
+            return hours * 60 + minutes;
+          };
+
+          return parseTime(bTime) - parseTime(aTime)
+
+        });
+
+        const contacts = document.querySelector(".contact-list");
+        contacts.innerHTML = "";
+
+        chatsSorted.forEach((chat) => {
+          contacts.appendChild(chat);
+        });
+
+      }else if(!lastMessage){
+        console.error("No active chat selected");
+      }else{
+        console.error("Message or sender data is missing:", data);
+      }
+
+    }
+
+    document.getElementById('userSearchInput').addEventListener('keyup', function() {
+      let filter = this.value.toLowerCase();
+      document.querySelectorAll('.contact-link').forEach(function(link) {
+          let username = link.querySelector('.name').textContent.toLowerCase();
+          let isNoMsg = link.classList.contains('no-messages-yet');
+          if (filter.length === 0 && isNoMsg) {
+              // Sembunyikan jika tidak sedang search dan belum ada pesan
+              link.style.display = 'none';
+          } else if (username.indexOf(filter) > -1) {
+              link.style.display = '';
+          } else {
+              link.style.display = 'none';
+          }
+      });
+    });
+
+    // Jalankan sekali saat load untuk sembunyikan "No messages yet"
+    document.getElementById('userSearchInput').dispatchEvent(new Event('keyup'));
+  </script>
+</html>

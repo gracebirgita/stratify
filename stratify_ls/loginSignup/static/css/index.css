@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+p{
+    margin: 0;
+}
+
+h3,h5{
+    margin: 0;
+    font-weight: 500;
+    padding: 0;
+}
+
+body {
+    font-family: poppins;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+.dashboard-container {
+    display:flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.nav-left{
+    display:flex;
+    flex-direction:column;
+    background:#131313;
+    padding:10px 10px;
+    text-align:center;
+    background-color:#1f1f1f;
+    position: fixed;
+    height: 100%;
+    width:7%;
+
+    h3{
+        font-size:10px;
+    }
+
+    .top{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .mainIcon{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        a{
+            text-decoration: none;
+            color: white;
+        }
+
+
+        img{
+            width:40px;
+            height:auto;
+        }
+
+        i{
+            padding-bottom:5px;
+        }
+    }
+
+
+    .home,.landingpage,.messaging,.analytics,.logout,.activity{
+        padding: 5px;
+        gap:10px;
+    }
+
+    .mainIcon:hover, .home:hover, .landingpage:hover, .messaging:hover , .analytics:hover, .logout:hover, .activity:hover{
+        background-color: #343333;
+    }
+}
+
+.dashboard-content > div{
+    border-bottom: 0.1px solid rgba(255, 255, 255, 0.161);
+}
+
+.dashboard-content > div:nth-child(3){
+    border-bottom: none;
+}
+
+
+.dashboard-content{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 10px;
+    background-color: #141414;
+    flex-grow: 1;
+    margin-left: 8.8%;
+    min-height:100dvh;
+
+    .title{
+        padding: 8px 0px;
+    }
+
+    .roles{
+        display: flex;
+        flex-direction: row;
+        gap: 2%;
+        
+        a{
+            font-size: smaller;
+            color: white;
+            text-decoration: none;
+            padding: 10px 0px;
+            transition: border-bottom 0.3s ease, color 0.3s ease;;
+            border-bottom: 0px;
+        }
+
+        a.active{
+            color: white;
+            font-weight: bolder;
+            border-bottom: 1px solid white;
+        }
+        
+    }
+
+    .filters {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        padding: 10px 0px;
+        font-size: smaller;
+
+        form{
+            display: flex;
+            gap:10px;
+        }
+
+
+        input{
+            padding: 5px;
+            color: white;
+        }
+
+        .searchData{
+            padding: 5px;
+            background-color: #343333;
+            border: none;
+            border-radius: 4px;
+        }
+        
+        .searchInput{
+            display: none;
+            
+        }
+
+        .categor{
+            padding: 5px;
+            background-color: #343333;
+            border-radius: 4px;
+            border: none;
+            color: rgb(216, 216, 216);
+            width: 50%;
+
+            option{
+                color: rgb(216, 216, 216);
+            }
+
+        }
+
+        .repu{
+            padding: 5px;
+            background-color: #343333;
+            border-radius: 4px;
+            border: none;
+            color: white;
+            width: 50%;
+        }
+
+        .filterSubmit{
+            display: none;
+            visibility: none;
+        }
+
+        .add{
+            margin-left: auto;
+        }
+
+        .addCompany{
+            margin-left: auto;
+
+            button{
+                background-color: #343333;
+                padding: 5px;
+                border: none;
+                border-radius: 4px;
+                color: white;
+            }
+        }
+    }
+
+    table{
+        border-collapse: collapse;
+        font-family: poppins;
+        font-size: smaller;
+        width: 100%;
+        
+
+        th, td{
+            padding: 10px 10px;
+            text-align: left;
+            white-space: nowrap;
+            text-overflow: ellipsis; 
+            overflow: hidden;
+
+        }
+
+        td{
+            font-weight: 200;
+            font-size: smaller;
+            border: 0.3px solid rgba(88, 88, 88, 0.198);
+        }
+
+        th{
+            background-color: #343333;
+            border: none;
+            padding: 10px 10px;
+            font-weight: 300;
+        }
+
+        td:nth-child(1), th:nth-child(1){
+            max-width: 150px;
+            div{
+                display: flex;
+                gap: 10px;
+                align-items: center;
+            }
+        }
+
+        td:nth-child(2), th:nth-child(2){
+            max-width: 150px;
+        }
+
+        td:nth-child(3), th:nth-child(3){
+            min-width: 100px;
+        }
+
+        td:nth-child(4), th:nth-child(4),
+        td:nth-child(5), th:nth-child(5){
+            max-width: 100px;
+        }
+
+        td:nth-child(6), th:nth-child(6){
+            min-width: 200px;
+            div{
+                display: flex;
+                gap: 10px;
+            }
+        }
+
+        .invest{
+            background-color: #333333;
+            text-decoration: none;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            padding: 5px 15px;
+            
+            a{
+                text-decoration: none;
+                font-size: smaller;
+                color: rgb(255, 255, 255);
+                font-weight: 300;
+            }
+        }
+
+        .view{
+            background-color: #333333;
+            text-decoration: none;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            padding: 5px 15px;
+
+            a{
+                text-decoration: none;
+                font-size: smaller; 
+                color: rgb(255, 255, 255);
+                font-weight: 300;
+            }
+        }
+    }
+    
+    thead{
+        text-align: left;
+        
+    }
+
+    tbody{
+        text-align: left;
+    }
+
+    
+
+}
+
+
+    

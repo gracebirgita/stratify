@@ -1,343 +1,274 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-<body>
-    <P>Hello World</P>
-    <br><br>
-
-    <a href="{% url 'logout' %}">Logout</a> -->
-    <!-- {% if request.user.is_authenticated %}
-        <p>{{request.user}}</p>
-        <a href="{% url 'logout' %}">Logout</a>
-    
-    {% else %}
-        <a href="{% url 'login' %}">Login</a>
-    {% endif %} -->
-<!--     
-</body>
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     {% load static %}
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stratify Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <script src="https://kit.fontawesome.com/43c9ab6ad0.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    
-
     <div class="dashboard-container">
-        <header class="dashboard-header">
-            <div class="logo">
-                <img src="logo.png" alt="Stratify Logo">
-                <h1>Stratify</h1>
+        <div class="nav-left">
+            <div class="top">
+                <a href="{% url 'home' %}">
+                    <div class="mainIcon">
+                        <img src="{% static '/icon/navbar-icons/Stratify Icon.png' %}">
+                    </div>
+                </a>
+                <a href="{% url 'landingPage' %}">
+                    <div class="landingpage">
+                        <i class="fa-solid fa-rocket"></i>
+                        <h3>Landing Page</h3>
+                    </div>
+                </a>
+                    <a href="{% url 'home' %}">
+                    <div class="home">
+                        <i class="fa-solid fa-table-columns"></i>
+                        <h3>Dashboard</h3>
+                    </div>
+                </a>
+                <a href="{% url 'messages' user.username %}">
+                    <div class="messaging">
+                        <i class="fa-solid fa-message"></i>
+                        <h3>Messaging</h3>
+                    </div>
+                </a>
+                {% if request.user.role == 1 %}
+                    <a href="{% url 'analyticsCompany' %}">
+                        <div class="analytics">
+                            <i class="fas fa-chart-simple"></i>
+                            <h3>Analytics</h3>
+                        </div>
+                    </a>
+                {% elif request.user.role == 2 %}
+                    <a href="{% url 'analyticsInvestor' %}">
+                        <div class="account">
+                            <i class="fas fa-chart-simple"></i>
+                            <h3>Analytics</h3>
+                        </div>
+                    </a>
+                {% endif %}
+                <a href="{% url 'my_activities' %}" class="logout">
+                    <div class="activity">
+                        <i class="fa-solid fa-list-ul"></i>
+                        <h3>Activity</h3>
+                    </div>
+                </a>
+                   <a href="{% url 'logout' %}" class="logout">
+                    <div class="logout">
+                        <i class="fas fa-sign-out-alt"></i> 
+                        <h3>Logout</h3>
+                    </div>
+                </a>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <!-- <li><a href="#">My Jobs</a></li> -->
-                    <li><a href="{% url 'my_activities' %}">My Activity</a></li>
-                    <li><a href="{% url 'messages' %}">Messages</a></li>
-                    <!-- <li><a href="#">Notifications</a></li> -->
-                    <li><a href="{% url 'logout' %}" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                    <!-- <a href="{% url 'logout' %}">Logout</a> -->
-                    <!-- {% if request.user.is_authenticated %}
-                        <p>{{request.user}}</p>
-                        <a href="{% url 'logout' %}">Logout</a>
-                    
-                    {% else %}
-                        <a href="{% url 'login' %}">Login</a>
-                    {% endif %} -->
-                </ul>
-            </nav>
-        </header>
-
-        <!-- FILTER -->
-        <div class="search-filters">
-            <form method="GET" action="">
-                <input type="text" name="search" placeholder="Search by name..." value="{{ request.GET.search }}">
-                <button type="submit" style="display: none;">Search</button>
-
-                <select name ="role">
-                    <option value="">Role (Company, Investor)</option>
-                    <option value="Company"  {% if role_filter == 'Company' %}selected{% endif %}>Company</option>
-                    <option value="Investor" {% if role_filter == 'Investor' %}selected{% endif %}>Investor</option>
-                </select>
-
-                <select name="category">
-                    <option value="">Category</option>
-                    <option value="FnB" {% if category_filter == 'FnB' %}selected{% endif %}>FnB</option>
-                    <option value="Jasa" {% if category_filter == 'Jasa' %}selected{% endif %}>Jasa</option>
-                    <option value="Grosir" {% if category_filter == 'Grosir' %}selected{% endif %}>Grosir</option>
-                    <option value="Peralatan Gudang" {% if category_filter == 'Peralatan Gudang' %}selected{% endif %}>Peralatan Gudang</option>
-                    <option value="Dekorasi" {% if category_filter == 'Dekorasi' %}selected{% endif %}>Dekorasi</option>
-                    <option value="Other" {% if category_filter == 'Other' %}selected{% endif %}>Other</option>
-                </select>
-                
-                <select name="reputation">
-                    <option value="">Reputation</option>
-                    <option value="Basic" {% if reputation_filter == 'Basic' %}selected{% endif %}>Basic</option>
-                    <option value="Intermediate" {% if reputation_filter == 'Intermediate' %}selected{% endif %}>Intermediate</option>
-                    <option value="Professional" {% if reputation_filter == 'Professional' %}selected{% endif %}>Professional</option>
-                </select>
-                <button type ="submit">Apply Filters</button>
-             </form>
         </div>
-                                            
-        {% if request.user.role == 1 %}
-            <p>Welcome, Company! You have access to this feature.</p>
-        {% elif request.user.role == 2 %}
-            <p>Welcome, Investor! You have access to this feature.</p>
-        {% else %}
-            <p>You do not have access to this feature.</p>
-        {% endif %}
-
-        <div class="content">
-            <div class="recent-searches">
-                <h2>Recent Searches</h2>
-                <ul>
-                    <li>Company A</li>
-                    <li>Investor B</li>
-                    <li>Company C</li>
-                </ul>
+        <!-- FILTER -->
+        <div class="dashboard-content">
+            <div class="title">
+                {% if request.user.role == 1 %}
+                    <h3>Welcome, {{ user.username }} </h3>
+                {% elif request.user.role == 2 %}
+                    <h3>Welcome, {{ user.username }}</h3>
+                {% else %}
+                    <h3>You do not have access to this feature.</h3>
+                {% endif %}
             </div>
-
-            <div class="listings">
-                <div class="listing">
-                    <h3>Company A</h3>
-                    <p>Category: FnB</p>
-                    <p>Reputation: Excellence</p>
-                    <button>+ Invest</button>
-                    <button>View Profile</button>
+            <div class="roles">
+                <a href="{% url 'home' %}{% if search_query %}?search={{ search_query }}{% endif %}" class="{% if not role_filter or role_filter == 'All' %}active{% endif %}">
+                    All User
+                </a>
+                <a href="?role=Company{% if search_query %}&search={{ search_query }}{% endif %}" class="{% if role_filter == 'Company' %}active{% endif %}">
+                    Company
+                </a>
+                <a href="?role=Investor{% if search_query %}&search={{ search_query }}{% endif %}" class="{% if role_filter == 'Investor' %}active{% endif %}">
+                    Investor
+                </a>
+            </div>
+            <div class="filters">
+                <form method="GET" action="" class="filterForm">
+                    <input type="hidden" name="role" value="{{ role_filter }}">
+                    <input type="text" name="search" placeholder="Search by name..." value="{{ request.GET.search }}" class="searchData">
+                    <button type ="submit" class="searchInput">search</button>
+                    {% if role_filter == 'Company' or role_filter == 'All' or role_filter == '' %}
+                        <select name="category" class="categor" >
+                            <option value="">Category</option>
+                            <option value="FnB" {% if category_filter == 'FnB' %}selected{% endif %}>FnB</option>
+                            <option value="Jasa" {% if category_filter == 'Jasa' %}selected{% endif %}>Jasa</option>
+                            <option value="Grosir" {% if category_filter == 'Grosir' %}selected{% endif %}>Grosir</option>
+                            <option value="Peralatan Gudang" {% if category_filter == 'Peralatan Gudang' %}selected{% endif %}>Peralatan Gudang</option>
+                            <option value="Dekorasi" {% if category_filter == 'Dekorasi' %}selected{% endif %}>Dekorasi</option>
+                            <option value="Other" {% if category_filter == 'Other' %}selected{% endif %}>Other</option>
+                        </select>
+                        <select name="reputation" class="repu">
+                            <option value="">Reputation</option>
+                            <option value="Basic" {% if reputation_filter == 'Basic' %}selected{% endif %}>Basic</option>
+                            <option value="Intermediate" {% if reputation_filter == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+                            <option value="Professional" {% if reputation_filter == 'Professional' %}selected{% endif %}>Professional</option>
+                        </select>
+                        <button type ="submit" class="filterSubmit">Apply Filters</button>
+                    {% endif %}
+                </form>
+            </div>
+            <div class="content">
+                <div class="listings">
+                    <table>
+                        <thead>
+                            {% if role_filter == 'Company' %}
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Category</th>
+                                    <th>Reputation</th>
+                                    <th>Actions</th>
+                                </tr>
+                            {% elif role_filter == 'Investor' %}
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            {% elif role_filter == 'All' or role_filter == '' %}
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Category</th>
+                                    <th>Reputation</th>
+                                    <th>Actions</th>
+                                </tr>
+                            {% endif %}
+                        </thead>
+                        <tbody>
+                            {% if role_filter == 'Company' %}  <!--Company-->
+                                {% if companies %}
+                                    {% for company in companies %}
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <img 
+                                                src="https://ui-avatars.com/api/?name={{ company.username|urlencode }}&size=64&background=random" 
+                                                alt="{{ company.username }}'s Profile Image"
+                                                style="width: 1.8rem; height: 1.8rem; object-fit: cover; border-radius:50%"
+                                                />
+                                                {{ company.username }}
+                                            </div>
+                                        </td>
+                                        <td>{{ company.email }}</td>
+                                        <td>{{ company.category }}</td>
+                                        <td>{{ company.reputation }}</td>
+                                        <td>
+                                            <div>
+                                                <button class="invest"><a href="{% url 'view_profile' company.username %}">+ Invest</a></button>
+                                                <button class="view"> <a href="{% url 'view_profile' company.username %}">View Profile</a></button>
+                                            <div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan='6'>No companies available.</td>
+                                    </tr>
+                                {% endif %}
+                            {% elif role_filter == 'Investor' %} <!--Investor-->
+                                {% if investors %}
+                                    {% for investor in investors %}
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <img 
+                                                    src="https://ui-avatars.com/api/?name={{ investor.username|urlencode }}&size=64&background=random" 
+                                                    alt="{{ investor.username }}'s Profile Image"
+                                                    class="profile-icon rounded-circle"
+                                                    style="width: 1.8rem; height: 1.8rem; object-fit: cover; border-radius:50%"
+                                                />
+                                                {{investor.username}}
+                                            </div>
+                                        </td>
+                                        <td>{{investor.email}}</td>
+                                        <td>
+                                            <div>
+                                                <button class="invest"><a href="{% url 'view_profile' investor.username %}"> + Invest</a></button>
+                                                <button class="view"> <a href="{% url 'view_profile' investor.username %}"> View Profile</a></button>
+                                            <div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan='6'>No Investor available.</td>
+                                    </tr>
+                                {% endif %}
+                            {% else %} <!--All User (Investor & Company)-->
+                                {% if companies %}
+                                    {% for company in companies %}
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <img 
+                                                src="https://ui-avatars.com/api/?name={{ company.username|urlencode }}&size=64&background=random" 
+                                                alt="{{ company.username }}'s Profile Image"
+                                                style="width: 1.8rem; height: 1.8rem; object-fit: cover; border-radius:50%"
+                                                />
+                                                {{ company.username }}
+                                            </div>
+                                        </td>
+                                        <td>{{ company.email }}</td>
+                                        <td>Company</td>
+                                        <td>{{ company.category }}</td>
+                                        <td>{{ company.reputation }}</td>
+                                        <td>
+                                            <div>
+                                                <button class="invest"><a href="{% url 'view_profile' company.username %}">+ Invest</a></button>
+                                                <button class="view"> <a href="{% url 'view_profile' company.username %}">View Profile</a></button>
+                                            <div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan='6'>No companies available.</td>
+                                    </tr>
+                                {% endif %}
+                                {% if investors %}
+                                    {% for investor in investors %}
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <img 
+                                                    src="https://ui-avatars.com/api/?name={{ investor.username|urlencode }}&size=64&background=random" 
+                                                    alt="{{ investor.username }}'s Profile Image"
+                                                    class="profile-icon rounded-circle"
+                                                    style="width: 1.8rem; height: 1.8rem; object-fit: cover; border-radius:50%"
+                                                />
+                                                {{investor.username}}
+                                            </div>
+                                        </td>
+                                        <td>{{investor.email}}</td>
+                                        <td>Investor</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>
+                                            <div>
+                                                <button class="invest"><a href="{% url 'view_profile' investor.username %}"> + Invest</a></button>
+                                                <button class="view"> <a href="{% url 'view_profile' investor.username %}"> View Profile</a></button>
+                                            <div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan='6'>No Investor available.</td>
+                                    </tr>
+                                {% endif %}
+                            {% endif %}
+                        </tbody>
+                    </table>
                 </div>
-                <div class="listing">
-                    <h3>Investor B</h3>
-                    <!-- <p>Category: Jasa</p> -->
-                    <p>Reputation: Best</p>
-                    <button>+ Invest</button>
-                    <button>View Profile</button>
-                </div>
-
-                <!-- More listings can be added here -->
-                <!-- Company -->
-                <h2>Companies</h2>
-                {% for company in companies %}
-                <div class="listing">
-                    <h3>{{ company.username }}</h3>
-                    <p>Email: {{ company.email }}</p>
-                    <p>Role: Company</p>
-                    <p>Category: {{company.category}}</p>
-                    <p>Reputation: {{company.reputation}}</p>
-
-                    <button>+ Invest</button>
-                    <button href="{% url 'view_profile' company.id %}" class="button">View Profile</button>
-                    <!-- <button >View Profile</button> -->
-
-                </div>
-                {% empty %}
-                <p>No companies available.</p>
-                {% endfor %}
-
-                <!-- Investor -->
-                <h2>Investors</h2>
-                {% for investor in investors %}
-                <div class="listing">
-                    <h3>{{ investor.username }}</h3>
-                    <p>Email: {{ investor.email }}</p>
-                    <p>Role: Investor</p>
-                    <button>+ Invest</button>
-                    <button href="{% url 'view_profile' investor.id %}" >View Profile</button>
-                </div>
-                {% empty %}
-                <p>No investors available.</p>
-                {% endfor %}
-
             </div>
         </div>
     </div>
-    <style>
-        body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f9;
-    color: #333;
-}
-
-.dashboard-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    background-color: #ffffff;
-    padding: 10px 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-}
-
-.logo img {
-    height: 40px;
-    margin-right: 10px;
-}
-
-.logo h1 {
-    font-size: 24px;
-    color: #333;
-    margin: 0;
-}
-
-.dashboard-header nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-}
-
-.dashboard-header nav ul li {
-    margin-left: 20px;
-}
-
-.dashboard-header nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-}
-
-.dashboard-header nav ul li a.logout {
-    color: #ff4d4d;
-}
-
-.dashboard-header nav ul li a.logout:hover {
-    color: #cc0000;
-}
-
-.search-filters {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.search-filters input, .search-filters select, .search-filters button {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.search-filters button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.search-filters button:hover {
-    background-color: #0056b3;
-}
-
-.content {
-    display: flex;
-    gap: 20px;
-}
-
-.recent-searches {
-    width: 200px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.recent-searches h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #555;
-}
-
-.recent-searches ul {
-    list-style: none;
-    padding: 0;
-}
-
-.recent-searches ul li {
-    margin-bottom: 10px;
-    color: #777;
-}
-
-.listings {
-    flex-grow: 1;
-}
-
-.listing {
-    background-color: white;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.listing h3 {
-    margin: 0;
-    font-size: 20px;
-    color: #333;
-}
-
-.listing p {
-    margin: 5px 0;
-    color: #555;
-}
-
-.listing button {
-    margin-right: 10px;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-}
-
-.listing button:first-of-type {
-    background-color: #28a745;
-    color: white;
-}
-
-.listing button:first-of-type:hover {
-    background-color: #218838;
-}
-
-.listing button:last-of-type {
-    background-color: #007bff;
-    color: white;
-}
-
-.listing button:last-of-type:hover {
-    background-color: #0056b3;
-}
-    </style>
+    <script src="{% static 'js/index.js' %}"></script>
 </body>
 </html>

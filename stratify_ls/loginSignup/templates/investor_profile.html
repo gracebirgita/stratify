@@ -1,0 +1,81 @@
+<!-- templates/investor_profile.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    {% if profile_user.profile_picture %}
+                        <img src="{{ profile_user.profile_picture.url }}" alt="Profile Picture" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                    {% else %}
+                        <img src="{% static 'default_profile.png' %}" alt="Default Profile" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                    {% endif %}
+                    
+                    <h2>{{ profile_user.get_full_name|default:profile_user.username }}</h2>
+                    
+                    {% if is_owner %}
+<div class="profile-actions mt-3">
+    <a href="{% url 'edit_investor_profile' %}" class="btn btn-primary">
+        <i class="fas fa-edit"></i> Edit Profile
+    </a>
+</div>
+{% endif %}
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Contact Information</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> {{ profile_user.location|default:"Not specified" }}</p>
+                    <p><i class="fas fa-envelope me-2"></i> {{ profile_user.email }}</p>
+                    {% if profile_user.website %}
+                        <p><i class="fas fa-globe me-2"></i> <a href="{{ profile_user.website }}" target="_blank">{{ profile_user.website }}</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">About</h3>
+                    <p class="card-text">{{ profile_user.bio|default:"No bio provided." }}</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Investment Portfolio</h3>
+                    {% if investments %}
+                        <div class="row">
+                            {% for company in investments %}
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                {% if company.company_logo %}
+                                                    <img src="{{ company.company_logo.url }}" alt="{{ company.company_name }}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                                {% endif %}
+                                                <div>
+                                                    <h5 class="mb-0">{{ company.company_name|default:company.username }}</h5>
+                                                    <small class="text-muted">{{ company.category }}</small>
+                                                </div>
+                                            </div>
+                                            <a href="{% url 'view_profile' company.username %}" class="stretched-link"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>No investments to show.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -37,8 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
     'base',
+    'channels',
+    'chat',
+    
 ]
 
 MIDDLEWARE = [
@@ -56,7 +60,7 @@ ROOT_URLCONF = 'loginSignup.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,7 +73,16 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'loginSignup.wsgi.application'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+
+# WSGI_APPLICATION = 'loginSignup.wsgi.application'
+ASGI_APPLICATION = 'loginSignup.asgi.application' #asynchronus
+# ASGI_APPLICATION = 'chat.asgi.application'
+
 
 
 # Database
@@ -82,6 +95,16 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'channelsdb',
+#         'USER': 'omkar',
+#         'PASSWORD': '2311',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -120,7 +143,11 @@ USE_TZ = True
 # STATIC_URL = 'static/'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,  'staticfiles')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+    
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -138,3 +165,19 @@ EMAIL_HOST_PASSWORD= ""
 
 #User ROLE
 AUTH_USER_MODEL = 'base.User'
+
+# chat
+# ASGI_APPLICATION = 'chat_project.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default':{
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+
+        # for production
+        # 'CONFIG': {
+        #     'hosts': [('127.0.0.1', 6379)],
+        # }
+        
+    },
+}
+

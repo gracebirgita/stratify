@@ -2,7 +2,8 @@ from django.contrib import admin
 
 #role
 from .models import User, PasswordReset
-#import models
+# from .models import ChatModel, UserProfileModel
+# from .models import Message
 
 admin.site.register(PasswordReset)
 
@@ -27,19 +28,6 @@ class UserAdmin(admin.ModelAdmin):
     ordering = ('username',)
     
 
-    # list_display = ('username', 'email', 'is_company', 'is_investor', 'is_admin')
-    # list_filter = ('is_company', 'is_investor', 'is_admin')
-    # fieldsets = (
-    #     (None, {'fields': ('username', 'password')}),
-    #     ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'is_company', 'is_investor')}),
-    #     ('Permissions', {'fields': ('is_admin', 'groups', 'user_permissions')}),
-    #     ('Important dates', {'fields': ('last_login', 'date_joined')}),
-    # )
-    # add_fieldsets = (
-    #     (None, {
-    #         'classes': ('wide',),
-    #         'fields': ('username', 'email', 'password1', 'password2', 'is_company', 'is_investor'),
-    #     }),
-    # )
-    # search_fields = ('username', 'email')
-    # ordering = ('username',)
+# chat
+# admin.site.register(ChatModel)
+# admin.site.register(UserProfileModel)
