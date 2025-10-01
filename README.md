@@ -17,5 +17,5 @@ The platform is designed to make **entrepreneurial reports easier to analyze**, 
 - **Backend Framework:** [Django](https://www.djangoproject.com/) (with ASGI for async support)
 - **Frontend:** HTML, CSS, JavaScript
 - **Data Visualization:** [Chart.js](https://www.chartjs.org/)
-- **Database:** PostgreSQL (default) or SQLite (for local development)
+- **Database:** SQLite (for local development)
 - **Real-Time Features:** Django Channels (WebSockets support)
